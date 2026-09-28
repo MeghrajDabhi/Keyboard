@@ -24,7 +24,8 @@ class FuturisticKeyboardService:InputMethodService(),KeyboardView.Listener {
  override fun onCreateInputView():View{keyboard=KeyboardView(this);keyboard.listener=this;keyboard.setPrefs(Prefs.load(this));keyboard.setClipboardItems((pinned.map{"★ "+it}+history.filter{!pinned.contains(it)}).toList());return keyboard}
  override fun onStartInput(info:EditorInfo?,restarting:Boolean){super.onStartInput(info,restarting);keyboard.takeIf{::keyboard.isInitialized}?.setPrefs(Prefs.load(this))}
  override fun onEvaluateFullscreenMode():Boolean=false
- override fun onAction(action:KeyAction,label:String){if(Prefs.load(this).sound)tone.startTone(ToneGenerator.TONE_PROP_BEEP,35)if(action.type==ActionType.CATEGORY&&action.category==Category.CLIPBOARD){keyboard.setClipboardItems((pinned.map{"★ "+it}+history.filter{!pinned.contains(it)}).toList());keyboard.setCategory(Category.CLIPBOARD);return};val ic=currentInputConnection ?: return
+ override fun onAction(action:KeyAction,label:String){if(Prefs.load(this).sound) tone.startTone(ToneGenerator.TONE_PROP_BEEP,35)
+  if(action.type==ActionType.CATEGORY&&action.category==Category.CLIPBOARD){keyboard.setClipboardItems((pinned.map{"★ "+it}+history.filter{!pinned.contains(it)}).toList());keyboard.setCategory(Category.CLIPBOARD);return};val ic=currentInputConnection ?: return
   when(action.type){
    ActionType.TEXT->ic.commitText(action.value,1)
    ActionType.SPACE->ic.commitText(" ",1)
